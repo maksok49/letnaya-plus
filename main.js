@@ -1,7 +1,6 @@
 function onTelegramAuth(user) {
   const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-  document.getElementById('auth-name').innerText = 'Привет, ' + name + '!';
-  document.getElementById('flight-form').style.display = 'block';
+  document.getElementById('app').innerText = 'Привет, ' + name + '!';
 }
 
 const script = document.createElement('script');
