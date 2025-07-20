@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Летная книжка</title>
-    
-    <!-- Подключение стилей -->
-    <link rel="stylesheet" href="styles/styles.css">
-    
-    <!-- Иконка приложения (можно добавить) -->
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Летная +</title>
+    <style>
+        /* Стили из предыдущего варианта + дополнения */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        /* Остальные стили... */
+    </style>
 </head>
 <body>
     <div class="container">
@@ -76,7 +88,19 @@
         data-onauth="onTelegramAuth(user)">
     </script>
 
-    <!-- Подключение основного скрипта -->
-    <script src="scripts/main.js"></script>
-</body>
-</html>
+    <script>
+        // Класс для хранения информации о полете
+        class Flight {
+            constructor(date, type, time, crew, route, details) {
+                this.date = date;
+                this.type = type;
+                this.time = time;
+                this.crew = crew || [];
+                this.route = route;
+                this.details = details || {};
+            }
+        }
+
+        // Telegram авторизация
+        function onTelegramAuth(user) {
+            const name = user.first_name + (user.last_name ? ' ' + user.
