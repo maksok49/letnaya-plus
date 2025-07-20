@@ -12,17 +12,6 @@ class Flight {
     }
 }
 
-// Telegram авторизация
-const telegramWidget = new TelegramWidget({
-    publicKey: 'YOUR_PUBLIC_KEY',
-    onAuth: function(user) {
-        document.getElementById('auth-name').innerText = `Привет, ${user.firstName}!`;
-        document.getElementById('flight-form').style.display = 'block';
-        renderFlights();
-        updateStatistics();
-    }
-});
-
 // Хранилище данных
 let flights = JSON.parse(localStorage.getItem('flights')) || [];
 
@@ -46,6 +35,7 @@ function updateStatistics() {
     
     document.getElementById('total-time').innerText = formatTime(totalTime);
     document.getElementById('flight-count').innerText = flights.length;
+    
     renderMonthlyStats();
 }
 
@@ -122,4 +112,17 @@ function performRouteSearch(query) {
 // Добавление члена экипажа
 function addCrewMember() {
     const crewSection = document.querySelector('.crew-section');
-    const new
+    const newMember = document.createElement('div');
+    newMember.classList.add('crew-member');
+    newMember.innerHTML = `
+        <input type="text" name="crew" placeholder="Фамилия члена экипажа">
+        <button type="button" onclick="removeCrewMember(this)">×</button>
+    `;
+    crewSection.appendChild(newMember);
+}
+
+function removeCrewMember(button) {
+    button.parentNode.remove();
+}
+
+// Отображение
