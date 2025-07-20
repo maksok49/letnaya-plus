@@ -1,42 +1,89 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Летная +</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Летная +</title>
 </head>
 <body>
-  <h1 id="auth-name">Добро пожаловать!</h1>
+    <h1 id="auth-name">Добро пожаловать!</h1>
 
-  <!-- Функция прямо в HTML, чтобы Telegram её точно увидел -->
-  <script>
-    function onTelegramAuth(user) {
-      const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-      document.getElementById('auth-name').innerText = 'Привет, ' + name + '!';
-      document.getElementById('flight-form').style.display = 'block';
-    }
-    window.onTelegramAuth = onTelegramAuth;
-  </script>
+    <!-- Список полетов -->
+    <ul id="flight-list"></ul>
 
-  <!-- Telegram Login ВИДЖЕТ -->
-  <script async src="https://telegram.org/js/telegram-widget.js?7"
-    data-telegram-login="trueletnaya_bot"   <!-- ← замени на имя своего бота без @ -->
-    data-size="large"
-    data-userpic="false"
-    data-request-access="write"
-    data-onauth="onTelegramAuth(user)">
-  </script>
+    <!-- Функция для Telegram -->
+    <script>
+        function onTelegramAuth(user) {
+            const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+            document.getElementById('auth-name').innerText = 'Привет, ' + name + '!';
+            document.getElementById('flight-form').style.display = 'block';
+            renderFlights(); // Загружаем сохраненные полеты
+        }
+        window.onTelegramAuth = onTelegramAuth;
+    </script>
 
-  <!-- Форма добавления записи -->
-  <form id="flight-form" style="display:none; margin-top: 20px;">
-    <label>Дата: <input type="date" name="date" required /></label><br />
-    <label>Тип ВС: <input type="text" name="type" required /></label><br />
-    <label>Время (чч:мм): <input type="text" name="time" required /></label><br />
-    <label>Комментарий: <input type="text" name="comment" /></label><br />
-    <label>PDF файл: <input type="file" name="pdf" accept="application/pdf" /></label><br />
-    <button type="submit">Сохранить</button>
-  </form>
+    <!-- Telegram Login ВИДЖЕТ -->
+    <script async src="https://telegram.org/js/telegram-widget.js?7"
+        data-telegram-login="trueletnaya_bot"
+        data-size="large"
+        data-userpic="false"
+        data-request-access="write"
+        data-onauth="onTelegramAuth(user)">
+    </script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('
+    <!-- Форма добавления записи -->
+    <form id="flight-form" style="display:none; margin-top: 20px;">
+        <label>Дата: <input type="date" name="date" required /></label><br />
+        <label>Тип ВС: <input type="text" name="type" required /></label><br />
+        <label>Время (чч:мм): <input type="text" name="time" required /></label><br />
+        <label>Комментарий: <input type="text" name="comment" /></label><br />
+        <label>PDF файл: <input type="file" name="pdf" accept="application/pdf" /></label><br />
+        <button type="submit">Сохранить</button>
+    </form>
+
+    <script>
+        // Хранилище записей
+        let flights = JSON.parse(localStorage.getItem('flights')) || [];
+
+        // Отображение списка полётов
+        function renderFlights() {
+            const list = document.getElementById('flight-list');
+            list.innerHTML = '';
+            flights.forEach((f) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    📅 <b>${f.date}</b> — 
+                    ✈️ ${f.type} — 
+                    ⏱ ${f.time} ч — 
+                    ${f.comment || ''} 
+                    ${f.pdf ? '📎 ' + f.pdf : ''}
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        // Добавление нового полёта
+        function addFlight(e) {
+            e.preventDefault();
+            const form = e.target;
+            const date = form.date.value;
+            const type = form.type.value;
+            const time = form.time.value;
+            const comment = form.comment.value;
+            const pdf = form.pdf.files[0]?.name || '';
+
+            const newFlight = { date, type, time, comment, pdf };
+            flights.push(newFlight);
+            localStorage.setItem('flights', JSON.stringify(flights));
+            renderFlights();
+            form.reset();
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('flight-form');
+            form.addEventListener('submit', addFlight);
+        });
+    </script>
+</body>
+</html>
