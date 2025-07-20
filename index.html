@@ -6,8 +6,21 @@
   <title>Летная +</title>
 </head>
 <body>
-  <h1>Летная + (демо)</h1>
-  <div id="app">Загрузка приложения...</div>
+  <h1 id="auth-name">Добро пожаловать!</h1>
+
+  <!-- Форма добавления записи -->
+  <form id="flight-form" style="display:none; margin-bottom: 20px;">
+    <label>Дата: <input type="date" name="date" required /></label><br />
+    <label>Тип ВС: <input type="text" name="type" required /></label><br />
+    <label>Время (чч:мм): <input type="text" name="time" required /></label><br />
+    <label>Комментарий: <input type="text" name="comment" /></label><br />
+    <label>PDF файл: <input type="file" name="pdf" accept="application/pdf" /></label><br />
+    <button type="submit">Сохранить</button>
+  </form>
+
+  <!-- Список полётов -->
+  <ul id="flight-list"></ul>
+
   <script src="main.js"></script>
 </body>
 </html>
