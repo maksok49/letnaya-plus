@@ -4,28 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Летная +</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    #flight-form {
-      display: none;
-      margin-top: 20px;
-    }
-    #flight-list {
-      margin-top: 20px;
-      list-style-type: none;
-      padding: 0;
-    }
-  </style>
 </head>
 <body>
   <h1 id="auth-name">Добро пожаловать!</h1>
 
+  <!-- Функция прямо в HTML, чтобы Telegram её точно увидел -->
+  <script>
+    function onTelegramAuth(user) {
+      const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+      document.getElementById('auth-name').innerText = 'Привет, ' + name + '!';
+      document.getElementById('flight-form').style.display = 'block';
+    }
+    window.onTelegramAuth = onTelegramAuth;
+  </script>
+
   <!-- Telegram Login ВИДЖЕТ -->
   <script async src="https://telegram.org/js/telegram-widget.js?7"
-    data-telegram-login="trueletnaya_bot"
+    data-telegram-login="trueletnaya_bot"   <!-- ← замени на имя своего бота без @ -->
     data-size="large"
     data-userpic="false"
     data-request-access="write"
@@ -33,30 +28,15 @@
   </script>
 
   <!-- Форма добавления записи -->
-  <form id="flight-form">
-    <label>
-      Дата: 
-      <input type="date" name="date" required />
-    </label><br />
-    
-    <label>
-      Тип ВС: 
-      <input type="text" name="type" required />
-    </label><br />
-    
-    <label>
-      Время (чч:мм): 
-      <input type="text" name="time" required />
-    </label><br />
-    
-    <label>
-      Комментарий: 
-      <input type="text" name="comment" />
-    </label><br />
-    
-    <label>
-      PDF файл: 
-      <input type="file" name="pdf" accept="application/pdf" />
-    </label><br />
-    
+  <form id="flight-form" style="display:none; margin-top: 20px;">
+    <label>Дата: <input type="date" name="date" required /></label><br />
+    <label>Тип ВС: <input type="text" name="type" required /></label><br />
+    <label>Время (чч:мм): <input type="text" name="time" required /></label><br />
+    <label>Комментарий: <input type="text" name="comment" /></label><br />
+    <label>PDF файл: <input type="file" name="pdf" accept="application/pdf" /></label><br />
     <button type="submit">Сохранить</button>
+  </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('
