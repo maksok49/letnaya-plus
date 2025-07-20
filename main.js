@@ -1,12 +1,13 @@
+// Хранилище записей
+let flights = JSON.parse(localStorage.getItem('flights') || '[]');
+
 // Функция вызывается Telegram Login виджетом после авторизации
 function onTelegramAuth(user) {
   const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
   document.getElementById('auth-name').innerText = 'Привет, ' + name + '!';
   document.getElementById('flight-form').style.display = 'block';
+  renderFlights(); // Отображаем список полётов после авторизации
 }
-
-// Хранилище записей
-const flights = JSON.parse(localStorage.getItem('flights') || '[]');
 
 // Отображение списка полётов
 function renderFlights() {
@@ -14,7 +15,13 @@ function renderFlights() {
   list.innerHTML = '';
   flights.forEach((f) => {
     const li = document.createElement('li');
-    li.innerHTML = `📅 <b>${f.date}</b> — ✈️ ${f.type} — ⏱ ${f.time} ч — ${f.comment || ''} ${f.pdf ? '📎 ' + f.pdf : ''}`;
+    li.innerHTML = `
+      📅 <b>${f.date}</b> — 
+      ✈️ ${f.type} — 
+      ⏱ ${f.time} ч — 
+      ${f.comment || ''} 
+      ${f.pdf ? '📎 ' + f.pdf : ''}
+    `;
     list.appendChild(li);
   });
 }
@@ -36,14 +43,11 @@ function addFlight(e) {
   form.reset();
 }
 
-// Инициализация после загрузки страницы
+// Инициализация
 document.addEventListener('DOMContentLoaded', () => {
-  const formEl = document.getElementById('flight-form');
-  if (formEl) {
-    formEl.addEventListener('submit', addFlight);
-  }
-  renderFlights();
+  const form = document.getElementById('flight-form');
+  form.addEventListener('submit', addFlight);
 });
 
-// 👇 Ключевой момент: делаем функцию доступной для Telegram-виджета
+// Добавляем window.onTelegramAuth для Telegram
 window.onTelegramAuth = onTelegramAuth;
