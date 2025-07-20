@@ -1,19 +1,14 @@
+// Эта функция вызывается Telegram Login виджетом из index.html
 function onTelegramAuth(user) {
   const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-  document.getElementById('app').innerText = 'Привет, ' + name + '!';
+  document.getElementById('auth-name').innerText = 'Привет, ' + name + '!';
+  document.getElementById('flight-form').style.display = 'block';
 }
 
-const script = document.createElement('script');
-script.src = 'https://telegram.org/js/telegram-widget.js?7';
-script.setAttribute('data-telegram-login', 'trueletnaya_bot');
-script.setAttribute('data-size', 'large');
-script.setAttribute('data-userpic', 'false');
-script.setAttribute('data-request-access', 'write');
-script.setAttribute('data-onauth', 'onTelegramAuth(user)');
-document.body.appendChild(script);
-
+// Загружаем сохранённые полёты
 const flights = JSON.parse(localStorage.getItem('flights') || '[]');
 
+// Рендерим список
 function renderFlights() {
   const list = document.getElementById('flight-list');
   list.innerHTML = '';
@@ -24,6 +19,7 @@ function renderFlights() {
   });
 }
 
+// Обработка формы
 function addFlight(e) {
   e.preventDefault();
   const form = e.target;
@@ -31,20 +27,4 @@ function addFlight(e) {
   const type = form.type.value;
   const time = form.time.value;
   const comment = form.comment.value;
-  const pdf = form.pdf.files[0]?.name || '';
-
-  const newFlight = { date, type, time, comment, pdf };
-  flights.push(newFlight);
-  localStorage.setItem('flights', JSON.stringify(flights));
-  renderFlights();
-  form.reset();
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const formEl = document.getElementById('flight-form');
-  if (formEl) {
-    formEl.addEventListener('submit', addFlight);
-  }
-  renderFlights();
-});
-
+  const pdf = for
