@@ -1,77 +1,62 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Лётная +</title>
-    <style>
-        /* Общие стили */
-        body { 
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: #f0f2f5;
-        }
-        
-        .nav-menu {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .nav-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background: #007bff;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        
-        .nav-button:hover {
-            background: #0056b3;
-        }
-        
-        .page {
-            display: none;
-            padding: 20px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        
-        .active-page {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Лётная +</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <nav class="nav-menu">
-        <button class="nav-button" onclick="showPage('flights')">✈️ Полёты</button>
-        <button class="nav-button" onclick="showPage('stats')">📊 Статистика</button>
-        <button class="nav-button" onclick="showPage('charts')">📈 Графики</button>
-    </nav>
+  <h2 id="auth-name">Добро пожаловать!</h2>
 
-    <!-- Страница ввода полётов -->
-    <div id="flights" class="page active-page">
-        <!-- Содержимое из предыдущей версии формы ввода -->
-    </div>
+  <!-- Telegram Login (встроенный) -->
+  <script>
+    function onTelegramAuth(user) {
+      const name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
+      document.getElementById('auth-name').innerText = 'Привет, ' + name + '!';
+      document.getElementById('flight-form').style.display = 'block';
+    }
+    window.onTelegramAuth = onTelegramAuth;
+  </script>
 
-    <!-- Страница статистики -->
-    <div id="stats" class="page">
-        <!-- Фильтры и статистические данные -->
-    </div>
+  <script async src="https://telegram.org/js/telegram-widget.js?7"
+    data-telegram-login="trueletnaya_bot"  <!-- ← замени на имя своего бота -->
+    data-size="large"
+    data-userpic="false"
+    data-request-access="write"
+    data-onauth="onTelegramAuth(user)">
+  </script>
 
-    <!-- Страница графиков -->
-    <div id="charts" class="page">
-        <!-- Графики и исторический налёт -->
-    </div>
+  <nav class="nav-menu">
+    <button class="nav-button" onclick="showPage('flights')">✈️ Полёты</button>
+    <button class="nav-button" onclick="showPage('stats')">📊 Статистика</button>
+    <button class="nav-button" onclick="showPage('charts')">📈 Графики</button>
+  </nav>
 
-    <script src="scripts/main.js"></script>
+  <!-- Полёты -->
+  <section id="flights" class="page active-page">
+    <form id="flight-form" style="display:none;">
+      <label>Дата: <input type="date" name="date" required /></label><br />
+      <label>Тип ВС: <input type="text" name="type" required /></label><br />
+      <label>Время (чч:мм): <input type="text" name="time" required /></label><br />
+      <label>Комментарий: <input type="text" name="comment" /></label><br />
+      <label>PDF файл: <input type="file" name="pdf" accept="application/pdf" /></label><br />
+      <button type="submit">Сохранить</button>
+    </form>
+    <ul id="flight-list" style="margin-top: 20px;"></ul>
+  </section>
+
+  <!-- Статистика -->
+  <section id="stats" class="page">
+    <h3>Налёт по типам ВС</h3>
+    <ul id="stats-list"></ul>
+  </section>
+
+  <!-- Графики (пока макет) -->
+  <section id="charts" class="page">
+    <h3>Графики налёта (в разработке)</h3>
+  </section>
+
+  <script src="main.js"></script>
 </body>
 </html>
