@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Полёты | Лётная+</title>
- <link rel="stylesheet" href="style.css">
-</head>
-<body>
- <!-- Навигация (одинаковая для всех страниц) -->
- <nav class="nav-menu">
- <a href="flights.html" class="nav-button active">✈️ Полёты</a>
- <a href="stats.html" class="nav-button">📊 Статистика</a>
- <a href="charts.html" class="nav-button">📈 Графики</a>
- </nav>
+<form id="flight-form" style="display:none;">
+  <label>Дата: <input type="date" name="date" required /></label><br />
+  <label>Тип ВС: <input type="text" name="type" required /></label><br />
+  <label>Борт: <input type="text" name="tail" required /></label><br />
+  <label>Экипаж: <input type="text" name="crew" /></label><br />
+  <label>Маршрут: <input type="text" name="route" /></label><br />
+  <label>Время (чч:мм): <input type="text" name="time" required /></label><br />
+  <label>Комментарий: <input type="text" name="comment" /></label><br />
+  <label>PDF файл: <input type="file" name="pdf" accept="application/pdf" /></label><br />
+  <button type="submit">Сохранить</button>
+</form>
 
- <!-- Уникальный контент страницы -->
- <div class="page-content">
- <h1>Мои полёты</h1>
- <!-- Ваш существующий код для полётов -->
- </div>
+<!-- 🔎 Поле поиска -->
+<input type="text" id="search-input" placeholder="Поиск по борту, маршруту, экипажу..." style="margin-top: 20px; padding: 6px; width: 100%;">
 
- <script src="script.js"></script>
-</body>
-</html>
+<ul id="flight-list" style="margin-top: 20px;"></ul>
