@@ -1,36 +1,34 @@
-/* Навигация */
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f9fb;
+  margin: 0;
+  padding: 20px;
+}
+
 .nav-menu {
- display: flex;
- justify-content: space-around;
- padding: 1rem;
- background: #2c3e50;
- position: fixed;
- bottom: 0;
- width: 100%;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .nav-button {
- color: white;
- text-decoration: none;
- padding: 0.8rem;
- border-radius: 8px;
- transition: background 0.3s;
+  padding: 10px 15px;
+  background: #007bff;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.nav-button.active {
- background: #3498db;
+.page {
+  display: none;
 }
 
-/* Контент страниц */
-.page-content {
- padding: 2rem;
- margin-bottom: 70px; /* Чтобы навигация не перекрывала */
+.active-page {
+  display: block;
 }
 
-/* Мобильная адаптация */
-@media (max-width: 480px) {
- .nav-button {
- font-size: 0.9rem;
- padding: 0.6rem;
- }
+input, button {
+  margin: 5px 0;
+  padding: 6px;
 }
