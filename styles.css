@@ -1,0 +1,36 @@
+/* Навигация */
+.nav-menu {
+ display: flex;
+ justify-content: space-around;
+ padding: 1rem;
+ background: #2c3e50;
+ position: fixed;
+ bottom: 0;
+ width: 100%;
+}
+
+.nav-button {
+ color: white;
+ text-decoration: none;
+ padding: 0.8rem;
+ border-radius: 8px;
+ transition: background 0.3s;
+}
+
+.nav-button.active {
+ background: #3498db;
+}
+
+/* Контент страниц */
+.page-content {
+ padding: 2rem;
+ margin-bottom: 70px; /* Чтобы навигация не перекрывала */
+}
+
+/* Мобильная адаптация */
+@media (max-width: 480px) {
+ .nav-button {
+ font-size: 0.9rem;
+ padding: 0.6rem;
+ }
+}
